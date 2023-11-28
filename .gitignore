@@ -1,41 +1,24 @@
-# Compiled Lua sources
-luac.out
+function SimpleDecompile(module)
+    local Module = require(module)
+    local DecompiledModule = ""
+    
+    for i, v in pairs(Module) do
+        if typeof(v) == "table" then
+            for j, z in pairs(v) do
+                if typeof(z) == "table" then
+                    for c, b in pairs(z) do
+                        DecompiledModule = DecompiledModule .. "\n" .. tostring(c) .. " " .. tostring(b)
+                    end
+                else
+                    DecompiledModule = DecompiledModule .. "\n" .. tostring(j) .. " " .. tostring(z)
+                end
+            end
+        else
+            DecompiledModule = DecompiledModule .. "\n" .. tostring(i) .. tostring(v)
+        end
+    end
 
-# luarocks build files
-*.src.rock
-*.zip
-*.tar.gz
+    return DecompiledModule
+end
 
-# Object files
-*.o
-*.os
-*.ko
-*.obj
-*.elf
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-*.def
-*.exp
-
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
-
+getgenv().decompile = SimpleDecompile
